@@ -236,7 +236,7 @@ class JupiterDoc {
     this.qc_flags = [];
 
     // flag a version number
-    this.libraryVersion = "1.1.31";
+    this.libraryVersion = "1.1.32";
   }
 
   /**
@@ -480,7 +480,7 @@ class JupiterDoc {
       model.periodic_escalation_rate / 100,
       basePayment,
       term.first_payment_start
-      //this.id === "db8a546e-90b4-425f-ace5-2ee77fe4d7b0",
+      //this.id === "db8a546e-90b4-425f-ace5-2ee77fe4d7b0"
     );
 
     const payments = blendedPayments.map((p) => {

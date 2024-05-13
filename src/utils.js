@@ -392,7 +392,7 @@ const blendedEscalation = (startDate, endDate, escalationStart, rate, baseAmount
       payment_index: p.payment_index,
       // this is wrong - just use the min_date here - 2024-05-13 PYEE edits
       // payment_date: firstPayment.plus({ years: p.payment_index }),
-      payment_date: new luxon.DateTime(p.min_date),
+      payment_date: new luxon.DateTime.fromFormat(p.min_date, "yyyy-MM-dd"),
       total_payment: round(p.total_payment, 2),
       min_date: p.min_date,
       max_date: p.max_date,
