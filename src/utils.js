@@ -303,7 +303,7 @@ const plusDuration = (length_years) => {
   }
 };
 
-const blendedEscalation = (startDate, endDate, escalationStart, rate, baseAmount, paymentStart) => {
+const blendedEscalation = (startDate, endDate, escalationStart, rate, baseAmount, paymentStart, debug = false) => {
   // this function calculates a daily rate based on escalation anniversary, and then calculates each Jan-Dec payment on blended cost
 
   // create array of all dates between start and end
@@ -331,10 +331,17 @@ const blendedEscalation = (startDate, endDate, escalationStart, rate, baseAmount
     var escalated_cost = baseAmount * Math.pow(1 + rate, escalation_periods);
 
     // calculate payment index
-    var payment_index = Math.floor(currentDate.diff(firstPayment, "years").years);
-    if (payment_index < 0) {
-      payment_index = 0;
-    }
+    // this is wrong - index needs to change on 1/1 of each year
+    // edited 2024-05-13 PYEE
+
+    // var payment_index = Math.floor(currentDate.diff(firstPayment, "years").years);
+    // if (payment_index < 0) {
+    //   payment_index = 0;
+    // }
+
+    // calculate payment index
+    // increment index on 1/1 of each year
+    var payment_index = currentDate.year - firstPayment.year;
 
     var obj = {};
 
@@ -375,11 +382,17 @@ const blendedEscalation = (startDate, endDate, escalationStart, rate, baseAmount
     }, {})
   );
 
+  if (debug) {
+    console.log("results", payments);
+  }
+
   // return a final rounded amount for each payment index
   return payments.map((p) => {
     return {
       payment_index: p.payment_index,
-      payment_date: firstPayment.plus({ years: p.payment_index }),
+      // this is wrong - just use the min_date here - 2024-05-13 PYEE edits
+      // payment_date: firstPayment.plus({ years: p.payment_index }),
+      payment_date: new luxon.DateTime(p.min_date),
       total_payment: round(p.total_payment, 2),
       min_date: p.min_date,
       max_date: p.max_date,

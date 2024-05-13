@@ -52,6 +52,14 @@
     "archived": false
   },
   {
+    "id": "59c46031-2a9d-4a1b-b283-597f3727ea34",
+    "name": "Termination Letter",
+    "description": "",
+    "ontologyId": null,
+    "classificationIds": [],
+    "archived": false
+  },
+  {
     "id": "617bb743-cbfb-4d0f-8131-290fbf138664",
     "name": "Payment Directive",
     "description": "",
@@ -164,6 +172,14 @@
     "name": "Purchase and Sale Agreement",
     "description": "",
     "ontologyId": "WL",
+    "classificationIds": [],
+    "archived": false
+  },
+  {
+    "id": "afdd1468-c24a-4a97-ba3e-75462f5891fc",
+    "name": "Recorded Deed",
+    "description": "",
+    "ontologyId": null,
     "classificationIds": [],
     "archived": false
   },
