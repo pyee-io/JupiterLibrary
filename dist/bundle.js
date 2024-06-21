@@ -316,12 +316,13 @@ const blendedEscalation = (startDate, endDate, escalationStart, rate, baseAmount
   // escalationStart = new luxon.DateTime.fromISO(escalationStart);
 
   // first payment date is either the first Jan 1 after the startDate, or the startDate, based on delay_first_payment
-  if (paymentStart === "Start next Jan 1 after Term commencement") {
-    var firstPayment = startDate.set({ year: startDate.year + 1, month: 1, day: 1 });
-  } else if (paymentStart === "Start 1st of month after commencement") {
-    var firstPayment = startDate.set({ year: startDate.year, month: startDate.month + 1, day: 1 });
+  let firstPayment;
+  if (paymentStart == "Start next Jan 1 after Term commencement") {
+    firstPayment = startDate.set({ year: startDate.year + 1, month: 1, day: 1 });
+  } else if (paymentStart == "Start 1st of month after commencement") {
+    firstPayment = startDate.plus({ months: 1 }).set({ day: 1 });
   } else {
-    var firstPayment = startDate;
+    firstPayment = startDate;
   }
 
   // initialize loop over dates
@@ -342,8 +343,12 @@ const blendedEscalation = (startDate, endDate, escalationStart, rate, baseAmount
     // }
 
     // calculate payment index
-    // increment index on 1/1 of each year
     var payment_index = currentDate.year - firstPayment.year;
+    if (currentDate < firstPayment) {
+      payment_index = 1;
+    } else {
+      payment_index = currentDate.year - firstPayment.year + 1;
+    }
 
     var obj = {};
 
@@ -392,9 +397,7 @@ const blendedEscalation = (startDate, endDate, escalationStart, rate, baseAmount
   return payments.map((p) => {
     return {
       payment_index: p.payment_index,
-      // this is wrong - just use the min_date here - 2024-05-13 PYEE edits
-      // payment_date: firstPayment.plus({ years: p.payment_index }),
-      payment_date: new luxon.DateTime.fromFormat(p.min_date, "yyyy-MM-dd"),
+      payment_date: firstPayment.plus({ years: p.payment_index - 1 }),
       total_payment: round(p.total_payment, 2),
       min_date: p.min_date,
       max_date: p.max_date,
@@ -987,7 +990,7 @@ class JupiterDoc {
     var payment_date;
     var payment_period_end;
 
-    term.escalation_rate ?? 0;
+    //var term_escalation_rate = term.escalation_rate ?? 0;
     var periodic_escalation_rate = model.periodic_escalation_rate ?? 0;
 
     var previous_terms = 0;
@@ -1017,6 +1020,11 @@ class JupiterDoc {
 
     // loop through remaining payments
     while (payment_period_start < term.end_date) {
+      // exit if payment_period_start is after closing date
+      if (this.closing_date && payment_period_start > this.closing_date) {
+        break;
+      }
+
       // calculate payment period end date
       payment_period_end = this.calcPaymentPeriodEnd(payment_date, model.payment_frequency, model.prorated_first_period, term.end_date);
 
@@ -1156,6 +1164,11 @@ class JupiterDoc {
 
       // loop until end date is reached
       while (payment_date <= payment_date_end) {
+        // if payment_date is after closing date, break loop
+        if (this.closing_date && payment_date > this.closing_date) {
+          break;
+        }
+
         // apply escalation as needed
         payment_amount = utils.calculateCompoundingGrowth(
           model.payment_amount + (model.increase_amount ?? 0) * (period - 1),

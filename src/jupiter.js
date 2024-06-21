@@ -552,7 +552,7 @@ class JupiterDoc {
     var payment_date;
     var payment_period_end;
 
-    var term_escalation_rate = term.escalation_rate ?? 0;
+    //var term_escalation_rate = term.escalation_rate ?? 0;
     var periodic_escalation_rate = model.periodic_escalation_rate ?? 0;
 
     var previous_terms = 0;
@@ -582,6 +582,11 @@ class JupiterDoc {
 
     // loop through remaining payments
     while (payment_period_start < term.end_date) {
+      // exit if payment_period_start is after closing date
+      if (this.closing_date && payment_period_start > this.closing_date) {
+        break;
+      }
+
       // calculate payment period end date
       payment_period_end = this.calcPaymentPeriodEnd(payment_date, model.payment_frequency, model.prorated_first_period, term.end_date);
 
@@ -721,6 +726,11 @@ class JupiterDoc {
 
       // loop until end date is reached
       while (payment_date <= payment_date_end) {
+        // if payment_date is after closing date, break loop
+        if (this.closing_date && payment_date > this.closing_date) {
+          break;
+        }
+
         // apply escalation as needed
         payment_amount = utils.calculateCompoundingGrowth(
           model.payment_amount + (model.increase_amount ?? 0) * (period - 1),

@@ -314,12 +314,13 @@ const blendedEscalation = (startDate, endDate, escalationStart, rate, baseAmount
   // escalationStart = new luxon.DateTime.fromISO(escalationStart);
 
   // first payment date is either the first Jan 1 after the startDate, or the startDate, based on delay_first_payment
-  if (paymentStart === "Start next Jan 1 after Term commencement") {
-    var firstPayment = startDate.set({ year: startDate.year + 1, month: 1, day: 1 });
-  } else if (paymentStart === "Start 1st of month after commencement") {
-    var firstPayment = startDate.set({ year: startDate.year, month: startDate.month + 1, day: 1 });
+  let firstPayment;
+  if (paymentStart == "Start next Jan 1 after Term commencement") {
+    firstPayment = startDate.set({ year: startDate.year + 1, month: 1, day: 1 });
+  } else if (paymentStart == "Start 1st of month after commencement") {
+    firstPayment = startDate.plus({ months: 1 }).set({ day: 1 });
   } else {
-    var firstPayment = startDate;
+    firstPayment = startDate;
   }
 
   // initialize loop over dates
@@ -340,8 +341,12 @@ const blendedEscalation = (startDate, endDate, escalationStart, rate, baseAmount
     // }
 
     // calculate payment index
-    // increment index on 1/1 of each year
     var payment_index = currentDate.year - firstPayment.year;
+    if (currentDate < firstPayment) {
+      payment_index = 1;
+    } else {
+      payment_index = currentDate.year - firstPayment.year + 1;
+    }
 
     var obj = {};
 
@@ -390,9 +395,7 @@ const blendedEscalation = (startDate, endDate, escalationStart, rate, baseAmount
   return payments.map((p) => {
     return {
       payment_index: p.payment_index,
-      // this is wrong - just use the min_date here - 2024-05-13 PYEE edits
-      // payment_date: firstPayment.plus({ years: p.payment_index }),
-      payment_date: new luxon.DateTime.fromFormat(p.min_date, "yyyy-MM-dd"),
+      payment_date: firstPayment.plus({ years: p.payment_index - 1 }),
       total_payment: round(p.total_payment, 2),
       min_date: p.min_date,
       max_date: p.max_date,

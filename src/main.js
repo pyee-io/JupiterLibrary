@@ -136,7 +136,7 @@ console.log(factArray.slice(0, 30));
 
 */
 
-console.log(jupiterDocs.find((x) => x.id === "db8a546e-90b4-425f-ace5-2ee77fe4d7b0"));
+console.log(jupiterDocs.find((x) => x.id === "69bcbfe5-4cfc-424d-b497-90a0bc510715"));
 
 console.log("%cHas Payment Directives", consoleHeaderFormat);
 console.log(jupiterDocs.filter((x) => x.payment_directives?.length > 0));
