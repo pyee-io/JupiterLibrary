@@ -172,11 +172,6 @@ class JupiterDoc {
     // Property Details
     this.property_description = utils.extractMultiFactValues(doc, utils.getFactTypeId("Property Description", factTypes));
 
-    // calc total acres for all proprerty descriptions
-    this.total_agreement_acres = this.property_description.reduce((acc, desc) => {
-      return acc + (desc.agreement_acres || 0);
-    }, 0);
-
     // calc controlled acres for all proprerty descriptions
     this.total_controlled_acres = this.property_description.reduce((acc, desc) => {
       return acc + (!desc.exclude_acres_from_controlled_acres ? desc.agreement_acres : 0) || 0;
@@ -983,6 +978,13 @@ class JupiterDoc {
     this.recorded_docs = allDocs.filter((x) => x.agreement_group === this.agreement_group && x.recorded_date);
     this.letters = allDocs.filter((x) => x.agreement_group === this.agreement_group && x.letter_date);
     this.deeds = allDocs.filter((x) => x.agreement_group === this.agreement_group && x.deed_date);
+
+    // calc total acres for all proprerty descriptions
+    // this is in a random spot for now, but needs to be put somewhere that makes sense
+    // in the constructor, it was running too fast and not finding the property descriptions
+    this.total_agreement_acres = this.property_description.reduce((acc, desc) => {
+      return acc + (desc.agreement_acres || 0);
+    }, 0);
   }
 
   /**

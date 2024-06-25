@@ -4,3 +4,4 @@
 *.pdf
 /accounting
 .env
+/src/retoolsucks.js
