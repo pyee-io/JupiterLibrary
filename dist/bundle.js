@@ -1400,7 +1400,7 @@ class JupiterDoc {
         this.calcEstimatedPurchasePrice();
       }
 
-      this.amendments = amendments;
+      this.amendments = amendments.filter((x) => x.amendment_date);
     }
   }
 
@@ -1412,7 +1412,6 @@ class JupiterDoc {
     if (!this.effective_date) {
       return;
     }
-
     this.payment_directives = allDocs.filter((x) => x.agreement_group === this.agreement_group && x.payment_directive_date);
     this.recorded_docs = allDocs.filter((x) => x.agreement_group === this.agreement_group && x.recorded_date);
     this.letters = allDocs.filter((x) => x.agreement_group === this.agreement_group && x.letter_date);
