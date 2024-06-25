@@ -1354,7 +1354,12 @@ class JupiterDoc {
           this.grantor = amendment.grantor;
         }
 
-        // closing date
+        // estimated closing date
+        if (amendment.estimated_closing_date) {
+          this.estimated_closing_date = amendment.estimated_closing_date;
+        }
+
+        // date closed
         if (amendment.date_closed) {
           this.date_closed = amendment.date_closed;
         }
