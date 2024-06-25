@@ -1313,6 +1313,7 @@ class JupiterDoc {
     if (amendments.length > 0) {
       // sort amendments by amendment date, adding an ordinal property
       amendments
+        .filter((x) => x.amendment_date)
         .sort((a, b) => {
           return new Date(a.amendment_date) - new Date(b.amendment_date);
         })
