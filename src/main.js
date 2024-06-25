@@ -136,7 +136,10 @@ console.log(factArray.slice(0, 30));
 
 */
 
-console.log(jupiterDocs.find((x) => x.id === "69bcbfe5-4cfc-424d-b497-90a0bc510715"));
+console.log(jupiterDocs.find((x) => x.id === "41d53cf2-4963-4d70-bcd7-2b81d87f5033"));
+
+console.log("%cHas Estimated Closing Date", consoleHeaderFormat);
+console.log(jupiterDocs.filter((x) => x.estimated_closing_date));
 
 console.log("%cHas Payment Directives", consoleHeaderFormat);
 console.log(jupiterDocs.filter((x) => x.payment_directives?.length > 0));

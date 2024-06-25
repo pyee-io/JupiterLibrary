@@ -97,6 +97,13 @@ class JupiterDoc {
       "date"
     );
 
+    this.deed_date = utils.extractFactValue(
+      doc,
+      utils.getFactTypeId("Deed Date", factTypes),
+      utils.getFactFieldId("Deed Date", "Deed Date", factTypes),
+      "date"
+    );
+
     // Payment Directive Date
     this.payment_directive_date = utils.extractFactValue(
       doc,
@@ -138,10 +145,18 @@ class JupiterDoc {
     );
 
     // Closing Date
-    this.closing_date = utils.extractFactValue(
+    this.estimated_closing_date = utils.extractFactValue(
       doc,
-      utils.getFactTypeId("Closing Date", factTypes),
-      utils.getFactFieldId("Closing Date", "Closing Date", factTypes),
+      utils.getFactTypeId("Estimated Closing Date", factTypes),
+      utils.getFactFieldId("Estimated Closing Date", "Estimated Closing Date", factTypes),
+      "date"
+    );
+
+    // Date Closed
+    this.date_closed = utils.extractFactValue(
+      doc,
+      utils.getFactTypeId("Date Closed", factTypes),
+      utils.getFactFieldId("Date Closed", "Date Closed", factTypes),
       "date"
     );
 
@@ -158,7 +173,7 @@ class JupiterDoc {
 
     // calc total acres for all proprerty descriptions
     this.total_agreement_acres = this.property_description.reduce((acc, desc) => {
-      return acc + desc.agreement_acres || 0;
+      return acc + (desc.agreement_acres || 0);
     }, 0);
 
     // calc controlled acres for all proprerty descriptions
@@ -583,7 +598,7 @@ class JupiterDoc {
     // loop through remaining payments
     while (payment_period_start < term.end_date) {
       // exit if payment_period_start is after closing date
-      if (this.closing_date && payment_period_start > this.closing_date) {
+      if (this.date_closed && payment_period_start > this.date_closed) {
         break;
       }
 
@@ -727,7 +742,7 @@ class JupiterDoc {
       // loop until end date is reached
       while (payment_date <= payment_date_end) {
         // if payment_date is after closing date, break loop
-        if (this.closing_date && payment_date > this.closing_date) {
+        if (this.date_closed && payment_date > this.date_closed) {
           break;
         }
 
@@ -796,7 +811,7 @@ class JupiterDoc {
    * calc final purchase price
    */
   calcEstimatedPurchasePrice() {
-    if (!this.full_purchase_price || !this.closing_date) {
+    if (!this.full_purchase_price || !this.date_closed) {
       return;
     }
     // calculate how mcuh of the purchase price has already been paid
@@ -820,13 +835,13 @@ class JupiterDoc {
 
     // only run purchase price if there is a closing date and a purchase price
     // and it is not terminated (added 2023-10-23)
-    if (this.closing_date && this.full_purchase_price && !this.termination?.termination_date) {
+    if (this.date_closed && this.full_purchase_price && !this.termination?.termination_date) {
       this.grantor.forEach((g) => {
         // create payment object for purchase price
         this.date_payments.push({
           payment_source: "Purchase Price Calculation",
           model_id: null,
-          payment_date: this.closing_date.toLocaleString(),
+          payment_date: this.date_closed.toLocaleString(),
           payment_type: "Purchase Price",
           payee: this.nicknameGrantor(g["grantor/lessor_name"]),
           // purchase payment will subtract all payments applicable to purchase price
@@ -849,7 +864,11 @@ class JupiterDoc {
     }
 
     const amendments = allDocs.filter(
-      (x) => this.agreement_group && x.agreement_group === this.agreement_group && x.amendment_date && x.id !== this.id && x.document_type !== "Deed"
+      (x) =>
+        this.agreement_group &&
+        x.agreement_group === this.agreement_group &&
+        (x.amendment_date || x.letter_date || x.deed_date || x.payment_directive_date || x.recorded_date) &&
+        x.id !== this.id //&& x.document_type !== "Deed"
     );
     if (amendments.length > 0) {
       // sort amendments by amendment date, adding an ordinal property
@@ -895,8 +914,8 @@ class JupiterDoc {
         }
 
         // closing date
-        if (amendment.closing_date) {
-          this.closing_date = amendment.closing_date;
+        if (amendment.date_closed) {
+          this.date_closed = amendment.date_closed;
         }
 
         // agreement terms
@@ -1052,13 +1071,13 @@ class JupiterDoc {
     }
 
     // document has closed tag, but no closing date
-    if (this.tags.includes("Closed") && !this.closing_date) {
-      this.qc_flags.push("Closed tag but no Closing Date");
+    if (this.tags.includes("Closed") && !this.date_closed) {
+      this.qc_flags.push("Closed tag but no Date Closed");
     }
 
     // document has puchase price, but no closing date
-    if (this.full_purchase_price && !this.closing_date) {
-      this.qc_flags.push("Purchase Price but no Closing Date");
+    if (this.full_purchase_price && !this.date_closed) {
+      this.qc_flags.push("Purchase Price but no Date Closed");
     }
 
     // agreement term QC

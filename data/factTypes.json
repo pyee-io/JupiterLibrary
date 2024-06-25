@@ -176,13 +176,30 @@
     "archived": false
   },
   {
-    "id": "4691579c-8ad3-42f1-9d63-4ba695c46b19",
-    "name": "Closing Date",
+    "id": "308f88df-5d1d-4b1f-ba72-34052ea0c7b8",
+    "name": "Date Closed",
     "description": null,
     "fieldTypes": [
       {
-        "id": "8a8b77ff-6439-4d38-8fa8-fb6d5ee332b9",
-        "name": "Closing Date",
+        "id": "4b3102f8-6487-4b0f-8203-75e81c2a5a56",
+        "name": "Date Closed",
+        "dataType": "Date",
+        "measurementType": null,
+        "selectListValues": null,
+        "selectListValuesTotalCount": 0
+      }
+    ],
+    "allowMultiple": false,
+    "archived": false
+  },
+  {
+    "id": "90be42cf-d752-4e57-bdae-d6319437aad6",
+    "name": "Deed Date",
+    "description": null,
+    "fieldTypes": [
+      {
+        "id": "cb129a0b-7009-4cf5-a66e-85efd356a6b9",
+        "name": "Deed Date",
         "dataType": "Date",
         "measurementType": null,
         "selectListValues": null,
@@ -223,6 +240,23 @@
       {
         "id": "cb93b25d-8bed-4865-8402-b2b3ded62af5",
         "name": "Effective Date",
+        "dataType": "Date",
+        "measurementType": null,
+        "selectListValues": null,
+        "selectListValuesTotalCount": 0
+      }
+    ],
+    "allowMultiple": false,
+    "archived": false
+  },
+  {
+    "id": "4691579c-8ad3-42f1-9d63-4ba695c46b19",
+    "name": "Estimated Closing Date",
+    "description": null,
+    "fieldTypes": [
+      {
+        "id": "8a8b77ff-6439-4d38-8fa8-fb6d5ee332b9",
+        "name": "Estimated Closing Date",
         "dataType": "Date",
         "measurementType": null,
         "selectListValues": null,
