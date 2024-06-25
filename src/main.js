@@ -239,8 +239,8 @@ console.log(terminatedDocs);
 
 */
 // filter to documents that have deeds
-const docsThatHaveDeeds = jupiterDocs.filter((doc) => doc.deed_count > 0);
-console.log("%cThese docs have deeds:", consoleHeaderFormat);
-console.log(docsThatHaveDeeds);
+// const docsThatHaveDeeds = jupiterDocs.filter((doc) => doc.deed_count > 0);
+// console.log("%cThese docs have deeds:", consoleHeaderFormat);
+// console.log(docsThatHaveDeeds);
 
 export default {};

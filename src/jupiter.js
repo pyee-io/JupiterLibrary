@@ -1,5 +1,6 @@
 import utils from "./utils.js"; // generic import, requires "utils" namespace to be used in code
 import lookups from "./lookups.js"; // import lookups as a single object
+//import { all } from "axios";
 
 /**
  * Represents a Jupiter document.
@@ -251,7 +252,7 @@ class JupiterDoc {
     this.qc_flags = [];
 
     // flag a version number
-    this.libraryVersion = "1.1.32";
+    this.libraryVersion = "1.1.33";
   }
 
   /**
@@ -976,6 +977,7 @@ class JupiterDoc {
     this.payment_directives = allDocs.filter((x) => x.agreement_group === this.agreement_group && x.payment_directive_date);
     this.recorded_docs = allDocs.filter((x) => x.agreement_group === this.agreement_group && x.recorded_date);
     this.letters = allDocs.filter((x) => x.agreement_group === this.agreement_group && x.letter_date);
+    //this.deeds = allDocs.filter((x) => x.agreement_group === this.agreement_group && x.deed_date);
   }
 
   /**
