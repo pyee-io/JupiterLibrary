@@ -1317,7 +1317,7 @@ class JupiterDoc {
         .sort((a, b) => {
           return new Date(a.amendment_date) - new Date(b.amendment_date);
         })
-        .map((x) => (x.amendment_ordinal = amendments.indexOf(x) + 1));
+        .map((x, index) => (x.amendment_ordinal = index + 1));
 
       // check each amendment for new values
       // newer amendments overwrite older values
