@@ -1416,7 +1416,7 @@ class JupiterDoc {
     this.payment_directives = allDocs.filter((x) => x.agreement_group === this.agreement_group && x.payment_directive_date);
     this.recorded_docs = allDocs.filter((x) => x.agreement_group === this.agreement_group && x.recorded_date);
     this.letters = allDocs.filter((x) => x.agreement_group === this.agreement_group && x.letter_date);
-    //this.deeds = allDocs.filter((x) => x.agreement_group === this.agreement_group && x.deed_date);
+    this.deeds = allDocs.filter((x) => x.agreement_group === this.agreement_group && x.deed_date);
   }
 
   /**
