@@ -1138,7 +1138,7 @@ class JupiterDoc {
               term,
               this.operational_details,
               this.term_payment_models,
-              this.amended_agreement_acres ?? this.total_agreement_acres,
+              this.total_controlled_acres,
               this.grantor,
               this.project_id
             );
@@ -1148,7 +1148,7 @@ class JupiterDoc {
               term,
               this.operational_details,
               this.term_payment_models,
-              this.amended_agreement_acres ?? this.total_agreement_acres,
+              this.total_controlled_acres,
               this.grantor,
               this.project_id
             );
