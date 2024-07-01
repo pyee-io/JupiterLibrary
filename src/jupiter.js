@@ -487,11 +487,12 @@ class JupiterDoc {
     const blendedPayments = utils.blendedEscalation(
       term.start_date,
       term.end_date,
+      model.prorated_first_period,
       escalationStart,
       model.periodic_escalation_rate / 100,
       basePayment,
       term.first_payment_start
-      //this.id === "db8a546e-90b4-425f-ace5-2ee77fe4d7b0"
+      //this.id === "b270e289-4aa5-4356-85ab-c10548f1c5ca"
     );
 
     const payments = blendedPayments.map((p) => {

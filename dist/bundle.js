@@ -305,7 +305,7 @@ const plusDuration = (length_years) => {
   }
 };
 
-const blendedEscalation = (startDate, endDate, escalationStart, rate, baseAmount, paymentStart, debug = false) => {
+const blendedEscalation = (startDate, endDate, prorated, escalationStart, rate, baseAmount, paymentStart, debug = false) => {
   // this function calculates a daily rate based on escalation anniversary, and then calculates each Jan-Dec payment on blended cost
 
   // create array of all dates between start and end
@@ -334,17 +334,12 @@ const blendedEscalation = (startDate, endDate, escalationStart, rate, baseAmount
     var escalated_cost = baseAmount * Math.pow(1 + rate, escalation_periods);
 
     // calculate payment index
-    // this is wrong - index needs to change on 1/1 of each year
-    // edited 2024-05-13 PYEE
+    // needs to take proration into consideration
 
-    // var payment_index = Math.floor(currentDate.diff(firstPayment, "years").years);
-    // if (payment_index < 0) {
-    //   payment_index = 0;
-    // }
-
-    // calculate payment index
     var payment_index = currentDate.year - firstPayment.year;
     if (currentDate < firstPayment) {
+      payment_index = 1;
+    } else if (prorated && currentDate.year === firstPayment.year) {
       payment_index = 1;
     } else {
       payment_index = currentDate.year - firstPayment.year + 1;
@@ -397,7 +392,8 @@ const blendedEscalation = (startDate, endDate, escalationStart, rate, baseAmount
   return payments.map((p) => {
     return {
       payment_index: p.payment_index,
-      payment_date: firstPayment.plus({ years: p.payment_index - 1 }),
+      //payment_date: firstPayment.plus({ years: p.payment_index - 1 }),
+      payment_date: p.min_date,
       total_payment: round(p.total_payment, 2),
       min_date: p.min_date,
       max_date: p.max_date,
@@ -926,11 +922,12 @@ class JupiterDoc {
     const blendedPayments = utils.blendedEscalation(
       term.start_date,
       term.end_date,
+      model.prorated_first_period,
       escalationStart,
       model.periodic_escalation_rate / 100,
       basePayment,
       term.first_payment_start
-      //this.id === "db8a546e-90b4-425f-ace5-2ee77fe4d7b0"
+      //this.id === "b270e289-4aa5-4356-85ab-c10548f1c5ca"
     );
 
     const payments = blendedPayments.map((p) => {

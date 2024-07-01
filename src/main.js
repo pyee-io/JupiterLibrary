@@ -136,23 +136,23 @@ console.log(factArray.slice(0, 30));
 
 */
 
-console.log(jupiterDocs.find((x) => x.id === "36557b34-9778-41e7-8a87-faa324e65ee5"));
+console.log(jupiterDocs.find((x) => x.id === "b270e289-4aa5-4356-85ab-c10548f1c5ca"));
 
 console.log("%cHas Estimated Closing Date", consoleHeaderFormat);
 console.log(jupiterDocs.filter((x) => x.estimated_closing_date));
 
-console.log("%cHas Payment Directives", consoleHeaderFormat);
-console.log(jupiterDocs.filter((x) => x.payment_directives?.length > 0));
+// console.log("%cHas Payment Directives", consoleHeaderFormat);
+// console.log(jupiterDocs.filter((x) => x.payment_directives?.length > 0));
 
-console.log("%cHas Letters", consoleHeaderFormat);
-console.log(jupiterDocs.filter((x) => x.letters?.length > 0));
+// console.log("%cHas Letters", consoleHeaderFormat);
+// console.log(jupiterDocs.filter((x) => x.letters?.length > 0));
 
-console.log("%cHas Recorded Docs", consoleHeaderFormat);
-console.log(jupiterDocs.filter((x) => x.recorded_docs?.length > 0));
+// console.log("%cHas Recorded Docs", consoleHeaderFormat);
+// console.log(jupiterDocs.filter((x) => x.recorded_docs?.length > 0));
 
-console.log("%cQC Flags Exist", consoleHeaderFormat);
-console.log(jupiterDocs.filter((x) => x.qc_flags.length > 0));
-console.log(jupiterDocs.filter((x) => x.qc_flags.some((flag) => flag.includes("Missing Payment Model on Agreement Term"))));
+// console.log("%cQC Flags Exist", consoleHeaderFormat);
+// console.log(jupiterDocs.filter((x) => x.qc_flags.length > 0));
+// console.log(jupiterDocs.filter((x) => x.qc_flags.some((flag) => flag.includes("Missing Payment Model on Agreement Term"))));
 
 console.log("%cDEV REPORTS:", consoleHeaderFormat);
 
