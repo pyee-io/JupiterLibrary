@@ -1346,6 +1346,11 @@ class JupiterDoc {
           this.grantor = amendment.grantor;
         }
 
+        // full_purchase_price
+        if (amendment.full_purchase_price) {
+          this.full_purchase_price = amendment.full_purchase_price;
+        }
+
         // estimated closing date
         if (amendment.estimated_closing_date) {
           this.estimated_closing_date = amendment.estimated_closing_date;
