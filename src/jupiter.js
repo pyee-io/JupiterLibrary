@@ -808,7 +808,7 @@ class JupiterDoc {
    * calc final purchase price
    */
   calcEstimatedPurchasePrice() {
-    if (!this.full_purchase_price || !this.date_closed) {
+    if (!this.full_purchase_price || (!this.estimated_closing_date && !this.date_closed)) {
       return;
     }
     // calculate how mcuh of the purchase price has already been paid
@@ -832,13 +832,13 @@ class JupiterDoc {
 
     // only run purchase price if there is a closing date and a purchase price
     // and it is not terminated (added 2023-10-23)
-    if (this.date_closed && this.full_purchase_price && !this.termination?.termination_date) {
+    if ((this.date_closed ?? this.estimated_closing_date) && this.full_purchase_price && !this.termination?.termination_date) {
       this.grantor.forEach((g) => {
         // create payment object for purchase price
         this.date_payments.push({
           payment_source: "Purchase Price Calculation",
           model_id: null,
-          payment_date: this.date_closed.toLocaleString(),
+          payment_date: (this.date_closed ?? this.estimated_closing_date).toLocaleString(),
           payment_type: "Purchase Price",
           payee: this.nicknameGrantor(g["grantor/lessor_name"]),
           // purchase payment will subtract all payments applicable to purchase price
