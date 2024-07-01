@@ -878,7 +878,7 @@ class JupiterDoc {
 
       // check each amendment for new values
       // newer amendments overwrite older values
-      amendments.forEach((amendment) => {
+      for (const amendment of amendments) {
         // these facts get overwritten by the amendment
 
         // effective date
@@ -892,7 +892,7 @@ class JupiterDoc {
         }
 
         // property description
-        if (amendment.property_description.length > 0) {
+        if (amendment.property_description?.length > 0) {
           this.property_description = amendment.property_description;
         }
 
@@ -906,7 +906,7 @@ class JupiterDoc {
           this.grantee = amendment.grantee;
         }
 
-        if (amendment.grantor && amendment.grantor.length > 0) {
+        if (amendment.grantor && amendment.grantor?.length > 0) {
           // lessors
           this.grantor = amendment.grantor;
         }
@@ -937,7 +937,7 @@ class JupiterDoc {
         }
 
         // termination
-        if (amendment.termination) {
+        if (Object.keys(amendment.termination).length > 0) {
           this.termination = amendment.termination;
         }
 
@@ -945,7 +945,7 @@ class JupiterDoc {
         // if an original fact of these types exists, it will need to be modified on the original document
 
         // periodic date payment models
-        amendment.date_payment_models.forEach((model) => {
+        amendment.date_payment_models?.forEach((model) => {
           this.date_payment_models.push(model);
         });
 
@@ -957,7 +957,7 @@ class JupiterDoc {
           this.review_status_value_instance_id = amendment.review_status_value_instance_id;
           this.review_status_notes = amendment.review_status_notes;
         }
-      });
+      }
 
       // re-calculate payments based on amended values
       if (this.agreement_terms) {
@@ -968,7 +968,7 @@ class JupiterDoc {
         this.calcEstimatedPurchasePrice();
       }
 
-      this.amendments = amendments.filter((x) => x.amendment_date);
+      this.amendments = amendments;
     }
   }
 
