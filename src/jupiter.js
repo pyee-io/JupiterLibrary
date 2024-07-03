@@ -604,7 +604,7 @@ class JupiterDoc {
     // loop through remaining payments
     while (payment_period_start < term.end_date) {
       // exit if payment_period_start is after closing date
-      if (this.date_closed && payment_period_start > this.date_closed) {
+      if (this.date_purchased && payment_period_start > this.date_purchased) {
         break;
       }
 
@@ -748,7 +748,7 @@ class JupiterDoc {
       // loop until end date is reached
       while (payment_date <= payment_date_end) {
         // if payment_date is after closing date, break loop
-        if (this.date_closed && payment_date > this.date_closed) {
+        if (this.date_purchased && payment_date > this.date_purchased) {
           break;
         }
 
@@ -817,7 +817,7 @@ class JupiterDoc {
    * calc final purchase price
    */
   calcEstimatedPurchasePrice() {
-    if (!this.full_purchase_price || (!this.estimated_closing_date && !this.date_closed)) {
+    if (!this.full_purchase_price || (!this.estimated_closing_date && !this.date_purchased)) {
       return;
     }
     // calculate how mcuh of the purchase price has already been paid
@@ -841,13 +841,13 @@ class JupiterDoc {
 
     // only run purchase price if there is a closing date and a purchase price
     // and it is not terminated (added 2023-10-23)
-    if ((this.date_closed ?? this.estimated_closing_date) && this.full_purchase_price && !this.termination?.termination_date) {
+    if ((this.date_purchased ?? this.estimated_closing_date) && this.full_purchase_price && !this.termination?.termination_date) {
       this.grantor.forEach((g) => {
         // create payment object for purchase price
         this.date_payments.push({
           payment_source: "Purchase Price Calculation",
           model_id: null,
-          payment_date: (this.date_closed ?? this.estimated_closing_date).toLocaleString(),
+          payment_date: (this.date_purchased ?? this.estimated_closing_date).toLocaleString(),
           payment_type: "Purchase Price",
           payee: this.nicknameGrantor(g["grantor/lessor_name"]),
           // purchase payment will subtract all payments applicable to purchase price
@@ -930,9 +930,14 @@ class JupiterDoc {
           this.estimated_closing_date = amendment.estimated_closing_date;
         }
 
-        // date closed
-        if (amendment.date_closed) {
-          this.date_closed = amendment.date_closed;
+        // date purchased
+        if (amendment.date_purchased) {
+          this.date_purchased = amendment.date_purchased;
+        }
+
+        // date sold
+        if (amendment.date_sold) {
+          this.date_sold = amendment.date_sold;
         }
 
         // agreement terms
@@ -1092,16 +1097,6 @@ class JupiterDoc {
     // document has termiation tag, but no termination date
     if (this.tags.includes("Terminated") && !this.termination?.termination_date) {
       this.qc_flags.push("Termination tag but no Termination Date");
-    }
-
-    // document has closed tag, but no closing date
-    if (this.tags.includes("Closed") && !this.date_closed) {
-      this.qc_flags.push("Closed tag but no Date Closed");
-    }
-
-    // document has puchase price, but no closing date
-    if (this.full_purchase_price && !this.date_closed) {
-      this.qc_flags.push("Purchase Price but no Date Closed");
     }
 
     // agreement term QC
