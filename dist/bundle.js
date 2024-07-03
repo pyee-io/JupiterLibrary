@@ -1312,17 +1312,22 @@ class JupiterDoc {
         x.id !== this.id //&& x.document_type !== "Deed"
     );
     if (amendments.length > 0) {
+      // create sort date for amendments
+      amendments.forEach((x) => {
+        x.sort_date = x.amendment_date || x.letter_date || x.deed_date || x.payment_directive_date || x.recorded_date;
+      });
+
       // sort amendments by amendment date, adding an ordinal property
       amendments
         .filter((x) => x.amendment_date)
         .sort((a, b) => {
-          return new Date(a.amendment_date) - new Date(b.amendment_date);
+          return a.sort_date.ts - b.sort_date.ts;
         })
         .map((x, index) => (x.amendment_ordinal = index + 1));
 
       // check each amendment for new values
       // newer amendments overwrite older values
-      for (const amendment of amendments) {
+      for (const amendment of amendments.sort((a, b) => a.sort_date.ts - b.sort_date.ts)) {
         // these facts get overwritten by the amendment
 
         // effective date

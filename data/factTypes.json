@@ -177,12 +177,29 @@
   },
   {
     "id": "308f88df-5d1d-4b1f-ba72-34052ea0c7b8",
-    "name": "Date Closed",
-    "description": null,
+    "name": "Date Purchased",
+    "description": "Closing date of purchase transaction",
     "fieldTypes": [
       {
         "id": "4b3102f8-6487-4b0f-8203-75e81c2a5a56",
-        "name": "Date Closed",
+        "name": "Date Purchased",
+        "dataType": "Date",
+        "measurementType": null,
+        "selectListValues": null,
+        "selectListValuesTotalCount": 0
+      }
+    ],
+    "allowMultiple": false,
+    "archived": false
+  },
+  {
+    "id": "1e727ea1-4893-46a4-85a5-719b4d00165e",
+    "name": "Date Sold",
+    "description": "Closing date of sale transaction",
+    "fieldTypes": [
+      {
+        "id": "5f7b85ef-453d-43e0-a54e-d5728499b722",
+        "name": "Date Sold",
         "dataType": "Date",
         "measurementType": null,
         "selectListValues": null,
