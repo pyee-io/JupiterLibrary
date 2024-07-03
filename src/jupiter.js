@@ -968,7 +968,7 @@ class JupiterDoc {
         this.calcEstimatedPurchasePrice();
       }
 
-      this.amendments = amendments;
+      this.amendments = amendments.filter((x) => x.amendment_date);
     }
   }
 

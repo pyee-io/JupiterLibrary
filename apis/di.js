@@ -59,7 +59,7 @@ const searchDocuments = async () => {
   const response = await axios.post(
     `${BASE_URL}/documents/search`,
     {
-      top: 500,
+      top: 1000,
       skip: 0,
       sort: {
         field: "CreatedOn",

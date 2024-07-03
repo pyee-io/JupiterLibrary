@@ -1,5 +1,5 @@
 import JupiterDoc from "./jupiter.js";
-import { allDocs, devDecisions } from "./reports.js";
+import { allDocs, devDecisions, LandControlReport } from "./reports.js";
 import utils from "./utils.js";
 
 var docs = [];
@@ -136,7 +136,7 @@ console.log(factArray.slice(0, 30));
 
 */
 
-console.log(jupiterDocs.find((x) => x.id === "b14dce4b-84f8-4202-9bc6-5db07771c6ec"));
+console.log(jupiterDocs.find((x) => x.id === "7125c0e5-11b6-41b5-a94d-20b422915d7a"));
 
 console.log("%cHas Estimated Closing Date", consoleHeaderFormat);
 console.log(jupiterDocs.filter((x) => x.estimated_closing_date));
@@ -155,9 +155,9 @@ console.log(jupiterDocs.filter((x) => x.estimated_closing_date));
 // console.log(jupiterDocs.filter((x) => x.qc_flags.some((flag) => flag.includes("Missing Payment Model on Agreement Term"))));
 
 console.log("%cDEV REPORTS:", consoleHeaderFormat);
-
-console.log(allDocs(jupiterDocs));
-console.log(devDecisions(jupiterDocs, 90));
+console.log(LandControlReport(jupiterDocs));
+// console.log(allDocs(jupiterDocs));
+// console.log(devDecisions(jupiterDocs, 90));
 
 console.log("%c~~~~~~~", consoleHeaderFormat);
 

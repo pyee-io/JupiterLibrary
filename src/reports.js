@@ -56,4 +56,34 @@ const devDecisions = (docs, outlookDays) => {
   });
 };
 
-export { allDocs, devDecisions };
+const LandControlReport = (docs) => {
+  const agreementGroupExcludeRegex = /^(?!MSA|DEED|Grazing|TAX|ASSET)/i;
+  const purchased = docs.filter(
+    (x) => x.agreement_group && x.effective_date && !x.termination?.termination_date && agreementGroupExcludeRegex.test(x.agreement_group)
+  );
+
+  const controlled = purchased.map((agmt) => {
+    return {
+      id: agmt.id,
+      agreement_group: agmt.agreement_group,
+      county: [...new Set(agmt.property_description.map((prop) => prop.county?.toUpperCase()))].join(", "),
+      state: [...new Set(agmt.property_description.map((prop) => prop.state?.toUpperCase()))].join(", "),
+      grantors: agmt.grantor?.map((g) => g["grantor/lessor_name"]).join(", "),
+      project: agmt.project_name,
+      project_id: agmt.project_id,
+      effective_date: agmt.effective_date.toFormat("yyyy-MM-dd"),
+      date_closed: agmt.date_closed?.toFormat("yyyy-MM-dd"),
+      estimated_closing_date: agmt.estimated_closing_date?.toFormat("yyyy-MM-dd"),
+      final_term_end_date: agmt.final_term_end_date
+        ? new luxon.DateTime.fromFormat(agmt.final_term_end_date, "M/d/yyyy").toFormat("yyyy-MM-dd")
+        : null,
+      total_acres: agmt.total_agreement_acres,
+      full_purchase_price: agmt.full_purchase_price,
+      //deed_count: agmt.deeds.length,
+    };
+  });
+
+  return controlled;
+};
+
+export { allDocs, devDecisions, LandControlReport };
