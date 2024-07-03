@@ -98,6 +98,7 @@ class JupiterDoc {
       "date"
     );
 
+    // Deed Date
     this.deed_date = utils.extractFactValue(
       doc,
       utils.getFactTypeId("Deed Date", factTypes),
@@ -145,7 +146,7 @@ class JupiterDoc {
       "number"
     );
 
-    // Closing Date
+    // Esimated Closing Date
     this.estimated_closing_date = utils.extractFactValue(
       doc,
       utils.getFactTypeId("Estimated Closing Date", factTypes),
@@ -153,11 +154,19 @@ class JupiterDoc {
       "date"
     );
 
-    // Date Closed
-    this.date_closed = utils.extractFactValue(
+    // Date Purchased
+    this.date_purchased = utils.extractFactValue(
       doc,
-      utils.getFactTypeId("Date Closed", factTypes),
-      utils.getFactFieldId("Date Closed", "Date Closed", factTypes),
+      utils.getFactTypeId("Date Purchased", factTypes),
+      utils.getFactFieldId("Date Purchased", "Date Purchased", factTypes),
+      "date"
+    );
+
+    // Date Sold
+    this.date_sold = utils.extractFactValue(
+      doc,
+      utils.getFactTypeId("Date Sold", factTypes),
+      utils.getFactFieldId("Date Sold", "Date Sold", factTypes),
       "date"
     );
 
