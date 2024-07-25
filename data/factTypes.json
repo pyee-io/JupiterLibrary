@@ -565,6 +565,7 @@
         "measurementType": null,
         "selectListValues": [
           "Deposit",
+          "Earnest Money",
           "Option Fee",
           "Due Diligence Fee",
           "Payment",
@@ -574,7 +575,7 @@
           "Termination Fee",
           "Contingent Payment"
         ],
-        "selectListValuesTotalCount": 9
+        "selectListValuesTotalCount": 10
       },
       {
         "id": "15a5f624-d693-4ec0-9711-8544a001ca36",
@@ -686,7 +687,7 @@
       },
       {
         "id": "6c43a922-acf9-4afe-9fb6-dc97e14d9099",
-        "name": "Payment frequency",
+        "name": "Payment Frequency",
         "dataType": "SelectList",
         "measurementType": null,
         "selectListValues": [

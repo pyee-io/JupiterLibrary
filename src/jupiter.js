@@ -521,7 +521,7 @@ class JupiterDoc {
           model_id: model.id,
           project_id: project_id,
           payment_index: p.payment_index,
-          payment_date: p.payment_date.toLocaleString(),
+          payment_date: p.payment_date?.toLocaleString(),
           late_payment_date: late_payment_date?.toLocaleString() || null,
           payment_type: `${term.term_type}${term.extension ? " (ext)" : ""} Term Payment`,
           payment_amount: p.total_payment * ((g.payment_split ?? 100) / grantor.length / 100),

@@ -390,14 +390,21 @@ const blendedEscalation = (startDate, endDate, prorated, escalationStart, rate, 
   return payments.map((p) => {
     return {
       payment_index: p.payment_index,
-      //payment_date: firstPayment.plus({ years: p.payment_index - 1 }),
-      payment_date: p.min_date,
+      payment_date: p.payment_index === 1 ? firstPayment : p.min_date,
       total_payment: round(p.total_payment, 2),
       min_date: p.min_date,
       max_date: p.max_date,
       date_count: p.date_count,
     };
   });
+};
+
+const luxDiffTest = () => {
+  let termlux = luxon.DateTime.local(2028, 6, 10);
+  let termlux2 = luxon.DateTime.local(2030, 1, 1);
+  console.log(termlux);
+  console.log(termlux2);
+  return termlux2.diff(termlux, "years").years;
 };
 
 export default {
@@ -420,4 +427,5 @@ export default {
   blendedEscalation,
   // apiGetAuthToken,
   // apiGetTags,
+  luxDiffTest,
 };

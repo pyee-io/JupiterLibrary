@@ -392,14 +392,21 @@ const blendedEscalation = (startDate, endDate, prorated, escalationStart, rate, 
   return payments.map((p) => {
     return {
       payment_index: p.payment_index,
-      //payment_date: firstPayment.plus({ years: p.payment_index - 1 }),
-      payment_date: p.min_date,
+      payment_date: p.payment_index === 1 ? firstPayment : p.min_date,
       total_payment: round(p.total_payment, 2),
       min_date: p.min_date,
       max_date: p.max_date,
       date_count: p.date_count,
     };
   });
+};
+
+const luxDiffTest = () => {
+  let termlux = luxon.DateTime.local(2028, 6, 10);
+  let termlux2 = luxon.DateTime.local(2030, 1, 1);
+  console.log(termlux);
+  console.log(termlux2);
+  return termlux2.diff(termlux, "years").years;
 };
 
 var utils = {
@@ -422,6 +429,7 @@ var utils = {
   blendedEscalation,
   // apiGetAuthToken,
   // apiGetTags,
+  luxDiffTest,
 };
 
 const DOC_TYPE_ABBREVIATIONS = {
@@ -956,7 +964,7 @@ class JupiterDoc {
           model_id: model.id,
           project_id: project_id,
           payment_index: p.payment_index,
-          payment_date: p.payment_date.toLocaleString(),
+          payment_date: p.payment_date?.toLocaleString(),
           late_payment_date: late_payment_date?.toLocaleString() || null,
           payment_type: `${term.term_type}${term.extension ? " (ext)" : ""} Term Payment`,
           payment_amount: p.total_payment * ((g.payment_split ?? 100) / grantor.length / 100),
