@@ -256,7 +256,7 @@ class JupiterDoc {
     this.qc_flags = [];
 
     // flag a version number
-    this.libraryVersion = "1.1.33";
+    this.libraryVersion = "1.1.34";
   }
 
   /**
