@@ -70,7 +70,6 @@ const calcDocs = async () => {
     jdoc.calcAllTermPayments();
     jdoc.calcDatePayments();
     //jdoc.calcOneTimePayments();
-    jdoc.calcEstimatedPurchasePrice();
     jupiterDocs.push(jdoc);
   });
 
@@ -79,6 +78,7 @@ const calcDocs = async () => {
     doc.processAmendments(jupiterDocs);
     doc.findOtherDocs(jupiterDocs);
     doc.findDeeds(jupiterDocs);
+    doc.calcEstimatedPurchasePrice();
     doc.qc();
   });
 };
@@ -136,7 +136,7 @@ console.log(factArray.slice(0, 30));
 
 */
 
-console.log(jupiterDocs.find((x) => x.id === "69bcbfe5-4cfc-424d-b497-90a0bc510715"));
+console.log(jupiterDocs.find((x) => x.id === "84a6e680-0fe7-42a9-8f4e-904802667155"));
 
 console.log("%cHas Estimated Closing Date", consoleHeaderFormat);
 console.log(jupiterDocs.filter((x) => x.estimated_closing_date));
